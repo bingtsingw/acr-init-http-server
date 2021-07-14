@@ -1,8 +1,10 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { Server } from 'http';
+import { bootstrap } from './bootstrap';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
-}
-bootstrap();
+(async () => {
+  const app = await bootstrap();
+
+  const server: Server = await app.listen(9000);
+  server.timeout = 15 * 60 * 1000;
+  server.keepAliveTimeout = 15 * 60 * 1000;
+})();
